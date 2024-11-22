@@ -1,15 +1,15 @@
 import React from "react";
 
-interface Column<T> {
-  label: string; // Display label for the column header
-  accessor: keyof T; // Key to access the field in the data
-  render?: (value: T[keyof T], row: T) => React.ReactNode; // Custom render function
+interface ColumnDefinition<T> {
+  label: string;
+  accessor: keyof T;
+  render?: (value: T[keyof T], row: T) => React.ReactNode;
 }
 
 interface TransactionsTableProps<T> {
   title: string;
-  columns: Column<T>[]; // Array of column definitions
-  data: T[]; // Array of transaction objects
+  columns: ColumnDefinition<T>[];
+  data: T[];
 }
 
 const TransactionsTable = <T,>({
@@ -23,12 +23,12 @@ const TransactionsTable = <T,>({
       <table className="w-full text-left border-collapse">
         <thead className="bg-gray-100">
           <tr>
-            {columns.map((col) => (
+            {columns.map((column) => (
               <th
-                key={col.label}
+                key={column.label}
                 className="p-4 text-sm font-medium text-gray-500"
               >
-                {col.label}
+                {column.label}
               </th>
             ))}
           </tr>
@@ -41,11 +41,11 @@ const TransactionsTable = <T,>({
                 rowIndex % 2 === 0 ? "bg-white" : "bg-gray-50"
               }`}
             >
-              {columns.map((col) => (
-                <td key={col.label} className="p-4">
-                  {col.render
-                    ? col.render(row[col.accessor], row)
-                    : row[col.accessor]?.toString()}
+              {columns.map((column) => (
+                <td key={column.label} className="p-4">
+                  {column.render
+                    ? column.render(row[column.accessor], row)
+                    : row[column.accessor]?.toString()}
                 </td>
               ))}
             </tr>

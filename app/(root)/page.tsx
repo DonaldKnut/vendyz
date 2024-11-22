@@ -22,15 +22,15 @@ const Dashboard = () => {
     }
   }, [dispatch, status]);
 
-  const transactionsColumns = [
-    { label: "Name", accessor: "name" },
-    { label: "Reference", accessor: "reference" },
-    { label: "Amount", accessor: "amount" },
-    { label: "Type", accessor: "type" },
+  const transactionColumns = [
+    { label: "Name", accessor: "name" as const },
+    { label: "Reference", accessor: "reference" as const },
+    { label: "Amount", accessor: "amount" as const },
+    { label: "Type", accessor: "type" as const },
     {
       label: "Action",
-      accessor: "id",
-      render: (_, row) => (
+      accessor: "id" as const,
+      render: (_: string, row: { id: string; name: string }) => (
         <button
           className="text-blue-500 hover:underline"
           onClick={() => alert(`Viewing transaction for ${row.name}`)}
@@ -41,7 +41,7 @@ const Dashboard = () => {
     },
   ];
 
-  const transactionsData = [
+  const transactionData = [
     {
       id: "1",
       name: "Ebiyo Sango",
@@ -58,7 +58,7 @@ const Dashboard = () => {
     },
   ];
 
-  const totalSpace = { used: 75, total: 100 }; // Example values
+  const totalSpace = { used: 75, total: 100 };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -97,8 +97,8 @@ const Dashboard = () => {
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
         <TransactionsTable
           title="Transaction History"
-          columns={transactionsColumns}
-          data={transactionsData}
+          columns={transactionColumns}
+          data={transactionData}
         />
         <OrdersBox
           orders={[
